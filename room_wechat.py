@@ -38,7 +38,7 @@ def is_my_face(clf, image_name):
             return True
     return False
 
-clf = joblib.load("./myface_regonition/my_face.pkl")
+clf = joblib.load("./my_face.pkl")
 
 itchat.auto_login(hotReload = True)
 
@@ -53,23 +53,25 @@ try:
     while(True):
         if(not me):
             if(os.path.isfile("./breaker.jpg") and (not is_break_in)):
-                if(write_time != 40):
-                    write_time = write_time + 1
-                    continue
+                while(True):
+                    try:
+                        bool_me = is_my_face(clf, './breaker.jpg')
+                        break
+                    except:
+                        print("Not finish writing yet")
+                if(bool_me):
+                    print("Welcome back my lord")
+                    me = True
                 else:
-                    write_time = 0
-                    bool_me = is_my_face(clf, './breaker.jpg')
-                    if(bool_me):
-                        print("Welcome back my lord")
-                        me = True
-                    
                     send_move_danger()
                     is_break_in = True
         
-            elif((not os.path.isfile("./breaker.jpg")) and is_break_in):
+            if((not os.path.isfile("./breaker.jpg")) and is_break_in):
                 send_move_save()
                 is_break_in = False
                 write_time = 0
+        if((not os.path.isfile("./breaker.jpg")) and me):    
+            me = False
 except KeyboardInterrupt:
     print("Finish")
     

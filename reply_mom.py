@@ -1,6 +1,6 @@
 import itchat
 
-itchat.auto_login(hotReload = True)
+itchat.auto_login(hotReload = False)
 
 
 while(True):
