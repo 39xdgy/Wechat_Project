@@ -31,21 +31,14 @@ has_diff = False
 while rval:
     # read the frame for now
     rval, now_frame = vc.read()
-
-    # display the image
     cv2.imshow("preview", now_frame)
-    # read two frame at this moment and next moment
-    img1 = Image.fromarray(frame, 'RGB')
+    img1 = Image.fromarray(frame, 'RGB')     # read two frame at this moment and next moment
     img2 = Image.fromarray(now_frame, 'RGB')
 
-    # campare the color difference between two different frame
-    # output is still a picture
-    diff = ImageChops.difference(img1, img2)
-    # reform the diff value to become an array
+    
+    diff = ImageChops.difference(img1, img2)    # campare the color difference between two different frame
     array = np.array(diff)
-    # return a boolean value that if any value in this matrix are less then 40
-    # the number 40 can be changes due to the camera frame difference
-    out = np.where(array > 40)[0].size
+    out = np.where(array > 40)[0].size    # the number 40 can be changes due to the camera frame difference
 
     # checking this frame is differnt or not, adding valuable to different values
     if(out == 0):
