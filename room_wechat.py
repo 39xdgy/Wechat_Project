@@ -50,7 +50,7 @@ write_time = 0
 
 
 try:
-    while(Tru
+    while(True):
         if(not me):
             if(os.path.isfile("./breaker.jpg") and (not is_break_in)):
                 while(True):
