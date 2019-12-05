@@ -6,8 +6,10 @@ import cv2     #cv2 is for readin the camera
 import numpy as np     #for the matrix calculation to tell the different between two frame
 from PIL import Image, ImageChops    #image processing
 import os    # read and write file
-global rval, frame     #try to avoid saving files, not finish yet
 import itchat     # wechat things, not using here
+import face_recognition as face
+
+global rval, frame     #try to avoid saving files, not finish yet
 
 cv2.namedWindow("preview") #create the frame to debug
 vc = cv2.VideoCapture(0) #calling the camera, number means the camera name, 0 is defult || first web camera, 1 is the webcamera, and so on
@@ -57,8 +59,10 @@ while rval:
     # save the picture when 25 consecutive frames are different and decide if the person left when 80 consecutive frames are the same
     if(count_diff >= 25 and (not has_diff)):
         #send_move_danger()
-        has_diff = True
-        cv2.imwrite("breaker.jpg", now_frame)
+        encode = face.face_encodings(now_frame)
+        if(len(encode) != 0):
+            has_diff = True
+            cv2.imwrite("breaker.jpg", now_frame)
     if(count_same > 80 and count_diff >= 25):
         #send_move_save()
         os.remove("breaker.jpg")
